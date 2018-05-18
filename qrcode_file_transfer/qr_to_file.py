@@ -70,7 +70,7 @@ def reconstruct_files_from_qr(qr_files, output_directory=''):
         return
 
     LOGGER.debug('Parsing %d QR files', len(qr_files))
-    file_data = {} # FileID -> {name: fileName, data: Array of b64}
+    file_data = {} # FileName -> {name: fileName, data: Array of b64}
     for f in qr_files:
         # Read image and detect QR codes contained within
         qr_json_list = read_qr_code(f)
@@ -81,25 +81,23 @@ def reconstruct_files_from_qr(qr_files, output_directory=''):
             qr_payload = json.loads(qr_json)
 
             # Extract fields
-            file_id = qr_payload['id']
             chunk = qr_payload['chunkNumber']
             totalChunks = qr_payload['totalChunks']
             name = qr_payload['name']
             data = qr_payload['data']
 
             LOGGER.debug('qr_file: %s', f)
-            LOGGER.debug('\tid: %d', file_id)
-            LOGGER.debug('\tchunk: %d/%d', chunk, totalChunks)
             LOGGER.debug('\tname: %s', name)
+            LOGGER.debug('\tchunk: %d/%d', chunk, totalChunks)
 
             # Haven't seen this file yet, so initialize a new structure
             # in `file_data`.
-            if not file_id in file_data:
+            if not name in file_data:
                 b64_data = [None] * (totalChunks + 1)
-                file_data[file_id] = {'name': name, 'data': b64_data}
+                file_data[name] = {'name': name, 'data': b64_data}
 
             # Save data into structure
-            file_data[file_id]['data'][chunk] = data
+            file_data[name]['data'][chunk] = data
 
     # For each file we read in...
     for f_id, f_info in file_data.items():
@@ -107,7 +105,7 @@ def reconstruct_files_from_qr(qr_files, output_directory=''):
         data = f_info['data']
 
         # Verify all chunks are present for the indicated file
-        LOGGER.debug('Analyzing data for ID %d, name: %s', f_id, name)
+        LOGGER.debug('Analyzing data for ID %s, name: %s', f_id, name)
         all_data_present = all(x is not None for x in data)
         if all_data_present:
             # All chunks present? Write back to file.
