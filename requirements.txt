@@ -1,3 +1,4 @@
-Pillow==5.1.0
-zbar-py==1.0.4
-qrcode==6.0
+Pillow
+zbar-py
+qrcode
+numpy
