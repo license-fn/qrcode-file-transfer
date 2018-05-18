@@ -13,7 +13,9 @@ def confirm_dir(dir):
 
     If this function returns True, then the directory exists.
     '''
-    if not os.path.exists(dir):
+    if dir == '':
+        return True
+    elif not os.path.exists(dir):
         LOGGER.debug('Ouput directory doesn\'t exist! Creating.')
         try:
             os.makedirs(dir)

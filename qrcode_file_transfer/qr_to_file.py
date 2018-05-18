@@ -1,3 +1,5 @@
+''' Contains utilities to convert QR codes back to files.
+'''
 import json
 import logging
 import os
@@ -25,7 +27,11 @@ def read_qr_code(image_file):
       List<string> The string contained in each detected QR code.
     '''
     # Load image.
-    image = Image.open(image_file)
+    try:
+        image = Image.open(image_file)
+    except OSError:
+        print('File "{f}" doesn\'t appear to be an image... skipping.'.format(f=image_file))
+        return []
 
     # We must convert the image to greyscale. However, any parts of the
     # image that contain an alpha channel are converted to black. Thus,
@@ -44,7 +50,6 @@ def read_qr_code(image_file):
 
     # Extract data
     return [r.data for r in res]
-
 
 def reconstruct_files_from_qr(qr_files, output_directory=''):
     ''' Reconstructs files from a list of QR codes.
@@ -111,8 +116,9 @@ def reconstruct_files_from_qr(qr_files, output_directory=''):
             b64_to_file(complete_b64, os.path.join(output_directory, name))
             print('Successfully decoded file: {f}'.format(f=name))
         else:
-            LOGGER.warn('Missing data for file: %s', name)
-            print('Missing data for file: {f}'.format(f=name))
+            # Compute missing data chunks
+            missing_chunks = [i for i, e in enumerate(data) if e is None]
+            print('Missing QR codes {mc} for file: {f}'.format(f=name, mc=missing_chunks))
 
 def b64_to_file(b64_data, output_file):
     ''' Create a file from a base 64 string.
