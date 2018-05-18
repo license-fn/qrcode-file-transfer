@@ -1,6 +1,7 @@
 import logging
-import sys
 import os
+import sys
+from contextlib import contextmanager
 
 LOGGER = logging.getLogger(__name__)
 
@@ -29,3 +30,21 @@ def confirm_dir(dir):
         return False
     else:
         return True
+
+@contextmanager
+def open_file(filename, mode='r'):
+    '''Attempt to open a file.
+
+    Yields (file_handle, error) depending on outcome.
+
+    Adapted from: https://stackoverflow.com/a/6090497
+    '''
+    try:
+        f = open(filename, mode)
+    except OSError as err:
+        yield None, err
+    else:
+        try:
+            yield f, None
+        finally:
+            f.close()
