@@ -20,7 +20,7 @@ def main():
         help='The mode of operation. Encode a file into QR code or decode QR codes into files.')
     parser.add_argument('--output_dir', default='',
         help=('The output directory to write files to. Will be created if it '
-              'doesn\'t exist. (default: %(default)s)'))
+              'doesn\'t exist. (default: current working dir)'))
     parser.add_argument('input_files', nargs='+', default=[],
         help='The files to encode or the QR codes to decode.')
 
