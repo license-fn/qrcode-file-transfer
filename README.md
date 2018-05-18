@@ -2,7 +2,7 @@
 A Python library used to transfer files with QR codes. Input a file, get QR code images. Print, email, or otherwise share your codes. Re-input these QR codes, get your original file back.
 
 # Usage
-This library is directly invokable as a module:
+This package is directly invokable as a module:
 ```
 $ python3 -m qrcode_file_transfer <args>
 ```
@@ -33,12 +33,12 @@ optional arguments:
 ```
 
 ## Example
-The following command will encode the license and readme files into QR codes and save thos images into a directory called `out`.
+The following command will encode the license and readme files into QR codes and save those images into a directory called `out`.
 ```
 qrcode_file_transfer --output_dir=out encode LICENSE README.md
 ```
 
-This will take those images generated in the previous command and convert them back into the original files. These files will be placed in the `out` directory.
+This will take the images generated in the previous command and convert them back into the original files. These files will be placed in the `out` directory.
 ```
 qrcode_file_transfer --output_dir=out decode out/*.png
 ```
