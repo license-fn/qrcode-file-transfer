@@ -43,4 +43,5 @@ def main():
         reconstruct_files_from_qr(input_files, output_dir)
         LOGGER.debug('Done!')
 
-main()
+if __name__ == '__main__':
+    main()
