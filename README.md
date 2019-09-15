@@ -60,6 +60,5 @@ qrcode_file_transfer --output_dir=out decode out/*.png
 
 ## From source
 1. Clone the repository
-2. Run `make`
-3. Run `make install`
-  * This command uses pip to install the wheel built in step (2). If you are using a python virtual environment, be sure to activate it before installing.
+2. Run `make install`
+    * This command uses pip to install a wheel. If you are using a python virtual environment, be sure to activate it before installing.
