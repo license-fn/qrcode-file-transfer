@@ -50,10 +50,14 @@ qrcode_file_transfer --output_dir=out decode out/*.png
 # Installation
 ## Requirements
 * Python 3
-* Pillow (Decode only)
-* numpy (Decode only)
-* zbar-py (Decode only)
-* qrcode (Encode only)
+* Encode
+  * qrcode
+  * Image
+* Decode
+  * Pillow
+  * numpy
+  * zbar-py
+
 ## From source
 1. Clone the repository
 2. Run `make`

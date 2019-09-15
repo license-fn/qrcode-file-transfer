@@ -6,8 +6,6 @@ import argparse
 import logging
 import sys
 
-from .file_to_qr import convert_file_to_qr
-from .qr_to_file import reconstruct_files_from_qr
 
 LOGGER = logging.getLogger(__name__)
 
@@ -34,11 +32,13 @@ def main():
     LOGGER.debug('input_files = %s', input_files)
 
     if mode == 'encode':
+        from .file_to_qr import convert_file_to_qr
         for f in input_files:
             LOGGER.debug('Encoding %s...', f)
             convert_file_to_qr(f, output_dir)
             LOGGER.debug('Done')
     elif mode == 'decode':
+        from .qr_to_file import reconstruct_files_from_qr
         LOGGER.debug('Decoding')
         reconstruct_files_from_qr(input_files, output_dir)
         LOGGER.debug('Done!')
